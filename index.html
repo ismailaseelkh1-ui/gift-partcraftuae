@@ -1389,7 +1389,7 @@ const VO_TIPS={
     {icon:'star',text:'"I keep thinking about you and I finally decided to just say it."'},
   ],
   sorry:[
-    {icon:'heart-sorry',text:'"I know this is too late but I need you to hear this from me."'},
+    {icon:'🤍',text:'"I know this is too late but I need you to hear this from me."'},
     {icon:'🌊',text:'"I have been thinking about what I did, and I need to say..."'},
     {icon:'🕊️',text:'"I am not asking for anything. I just need you to know I am sorry."'},
     {icon:'💔',text:'"You deserved better. That is the truth. And I am so sorry."'},
@@ -1439,7 +1439,7 @@ function buildAudioBanner(){
   el.innerHTML='<div class="af-quote">'+b.quote+'</div><div class="af-sub">'+b.sub+'</div>';
   const tips=VO_TIPS[S.type]||VO_TIPS.memorial;
   document.getElementById('vt-list').innerHTML=tips.map(t=>`
-    <div class="vo-tip"><span class="vo-tip-bullet">${t.icon}</span><span>${t.text}</span></div>`).join('');
+    <div class="vo-tip"><span class="vo-tip-bullet">${ICON_SVGS[t.icon]||t.icon}</span><span>${t.text}</span></div>`).join('');
   const icons={memorial:'🕯️',birthday:'🎂',anniversary:'💍',love:'💌',sorry:'🤍'};
   const vt={memorial:'Add Their Voice — or Yours',birthday:'Record a Birthday Message',anniversary:'Record Something Real',love:'Say It Out Loud',sorry:'Let Them Hear You'};
   const vd={memorial:'Upload a recording of their voice, a song they loved, or record yourself.',birthday:'Your voice saying happy birthday will mean more than any card.',anniversary:'The voice they fell in love with. Record something.',love:'Your voice saying this will change everything.',sorry:'Hearing you is different from reading you. This is your chance.'};
@@ -1467,10 +1467,18 @@ async function toggleRecord(){
       alert('Microphone not supported on this browser. Please use Chrome or Safari.');return;
     }
     const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-    mediaRecorder=new MediaRecorder(stream);recChunks=[];recSeconds=0;
-    mediaRecorder.ondataavailable=e=>recChunks.push(e.data);
+    // Detect supported mime type for iOS/Android compatibility
+    let mimeType='audio/webm';
+    if(MediaRecorder.isTypeSupported('audio/mp4')) mimeType='audio/mp4';
+    else if(MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) mimeType='audio/webm;codecs=opus';
+    else if(MediaRecorder.isTypeSupported('audio/webm')) mimeType='audio/webm';
+    else mimeType='';
+    mediaRecorder = mimeType ? new MediaRecorder(stream,{mimeType}) : new MediaRecorder(stream);
+    recChunks=[];recSeconds=0;
+    mediaRecorder.ondataavailable=e=>{if(e.data.size>0) recChunks.push(e.data);};
     mediaRecorder.onstop=()=>{
-      voiceBlob=new Blob(recChunks,{type:'audio/webm'});
+      const blobType = mediaRecorder.mimeType || 'audio/webm';
+      voiceBlob=new Blob(recChunks,{type:blobType});
       document.getElementById('audio-preview').src=URL.createObjectURL(voiceBlob);
       document.getElementById('audio-preview-wrap').style.display='block';
       stream.getTracks().forEach(t=>t.stop());
