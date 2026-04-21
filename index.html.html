@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forever Remembered</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   GLOBAL DARK BASE
+═══════════════════════════════════════ */
+:root{
+  --bg:#09090f;
+  --surface:#0f0f18;
+  --surface2:#141420;
+  --border:rgba(255,255,255,0.07);
+  --text:#e8e4de;
+  --muted:#7a7690;
+  --faint:#3a3850;
+  --gold:#c9a96e;
+  --gold2:#e8c98a;
+  --gold-dim:rgba(201,169,110,0.15);
+  --r:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ═══════════════════════════════════════
+   LANDING
+═══════════════════════════════════════ */
+#landing{
+  min-height:100vh;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;
+  padding:0 24px 100px;position:relative;overflow:hidden;
+}
+#landing::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 55% at 20% 15%,rgba(201,169,110,.05) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 60% at 82% 75%,rgba(100,80,200,.04) 0%,transparent 65%),
+    radial-gradient(ellipse 35% 40% at 50% 50%,rgba(180,80,80,.025) 0%,transparent 70%);
+}
+.l-inner{position:relative;z-index:1;width:100%;max-width:780px;display:flex;flex-direction:column;align-items:center;text-align:center}
+
+/* ── Nav ── */
+.l-nav{width:100%;display:flex;justify-content:space-between;align-items:center;padding:32px 0 68px}
+.l-logo{
+  font-family:'Cormorant Garamond',serif;font-size:14px;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;
+}
+.l-price-badge{
+  font-size:11px;letter-spacing:.12em;color:var(--muted);
+  background:rgba(201,169,110,.08);border:1px solid rgba(201,169,110,.18);
+  border-radius:100px;padding:8px 20px;
+}
+
+/* ── Hero ── */
+.l-eyebrow{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:rgba(201,169,110,.6);margin-bottom:22px}
+.l-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(56px,10vw,120px);
+  font-weight:300;line-height:.9;color:var(--text);
+  margin-bottom:10px;letter-spacing:-.02em;
+}
+.l-title em{font-style:italic;color:var(--gold2)}
+.l-title .dim{color:var(--muted);font-size:clamp(38px,7vw,84px)}
+.l-rule{width:72px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:30px auto}
+.l-hook{
+  font-family:'EB Garamond',serif;font-style:italic;
+  font-size:clamp(17px,2.4vw,22px);color:rgba(232,228,222,.6);
+  max-width:500px;line-height:1.8;margin-bottom:14px;
+}
+.l-sub{
+  font-size:13px;font-weight:300;letter-spacing:.03em;
+  color:var(--muted);max-width:420px;line-height:1.95;margin-bottom:52px;
+}
+.l-sub strong{color:rgba(232,228,222,.75);font-weight:400}
+
+/* ── CTA ── */
+.l-cta{display:flex;flex-direction:column;align-items:center;gap:18px;margin-bottom:68px}
+.btn-main{
+  background:var(--gold);color:#06060e;
+  border:none;padding:20px 60px;
+  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;
+  letter-spacing:.3em;text-transform:uppercase;
+  border-radius:2px;cursor:pointer;transition:all .3s;
+}
+.btn-main:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 18px 50px rgba(201,169,110,.3)}
+.l-cta-note{font-size:11px;letter-spacing:.08em;color:var(--faint)}
+.l-proof{display:flex;align-items:center;gap:13px;font-size:11px;letter-spacing:.05em;color:var(--faint)}
+.l-avs{display:flex}
+.l-av{
+  width:28px;height:28px;border-radius:50%;border:2px solid var(--bg);
+  background:linear-gradient(135deg,var(--gold),#7a4e1a);
+  margin-left:-8px;font-size:10px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;color:#06060e;
+}
+
+/* ── Occasion Cards — each emotionally coded ── */
+.occ-section{width:100%;margin-top:72px}
+.occ-label{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--faint);margin-bottom:28px}
+.occ-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;width:100%}
+
+.ocard{
+  border-radius:var(--r);padding:24px 16px;text-align:center;cursor:pointer;
+  transition:all .3s;border:1px solid transparent;position:relative;overflow:hidden;
+}
+.ocard::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s}
+.ocard:hover::before{opacity:1}
+.ocard:hover{transform:translateY(-4px)}
+
+/* Memorial — deep, quiet, grieving */
+.ocard-memorial{background:rgba(60,50,80,.35);border-color:rgba(100,80,140,.2)}
+.ocard-memorial::before{background:radial-gradient(ellipse at 50% 0%,rgba(120,90,180,.15),transparent 70%)}
+.ocard-memorial:hover{border-color:rgba(140,110,200,.4);box-shadow:0 16px 48px rgba(80,50,140,.2)}
+.ocard-memorial .ocard-icon{filter:grayscale(30%)}
+
+/* Birthday — warm, celebratory but not loud */
+.ocard-birthday{background:rgba(80,60,20,.35);border-color:rgba(180,130,40,.2)}
+.ocard-birthday::before{background:radial-gradient(ellipse at 50% 0%,rgba(200,160,60,.12),transparent 70%)}
+.ocard-birthday:hover{border-color:rgba(210,170,70,.4);box-shadow:0 16px 48px rgba(180,130,40,.2)}
+
+/* Anniversary — romantic, deep rose */
+.ocard-anniversary{background:rgba(80,30,50,.35);border-color:rgba(180,60,100,.2)}
+.ocard-anniversary::before{background:radial-gradient(ellipse at 50% 0%,rgba(200,80,110,.12),transparent 70%)}
+.ocard-anniversary:hover{border-color:rgba(220,90,130,.4);box-shadow:0 16px 48px rgba(180,50,90,.2)}
+
+/* Love — tender, glowing pink */
+.ocard-love{background:rgba(80,30,60,.35);border-color:rgba(200,80,140,.2)}
+.ocard-love::before{background:radial-gradient(ellipse at 50% 0%,rgba(220,100,160,.12),transparent 70%)}
+.ocard-love:hover{border-color:rgba(240,110,170,.4);box-shadow:0 16px 48px rgba(200,70,130,.2)}
+
+/* Apology — dark, heavy, raw */
+.ocard-sorry{background:rgba(60,20,20,.5);border-color:rgba(160,60,60,.25)}
+.ocard-sorry::before{background:radial-gradient(ellipse at 50% 0%,rgba(180,50,50,.18),transparent 70%)}
+.ocard-sorry:hover{border-color:rgba(200,80,80,.45);box-shadow:0 16px 48px rgba(160,40,40,.25)}
+
+.ocard-icon{font-size:26px;margin-bottom:10px;display:block}
+.ocard-name{
+  font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;
+  color:var(--text);margin-bottom:5px;
+}
+.ocard-desc{font-size:11px;letter-spacing:.04em;color:var(--muted);line-height:1.55}
+
+/* ── Features strip ── */
+.feat-strip{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-top:56px;width:100%}
+.feat-chip{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:100px;padding:9px 18px;font-size:11px;letter-spacing:.05em;color:var(--muted);
+}
+
+/* ── Testimonials ── */
+.testi-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:60px;width:100%}
+.tc{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:22px;max-width:215px;text-align:left;
+}
+.tc-stars{color:var(--gold);font-size:12px;margin-bottom:10px;letter-spacing:.1em}
+.tc-quote{font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:rgba(232,228,222,.6);line-height:1.7;margin-bottom:12px}
+.tc-name{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+
+/* ── Bottom CTA ── */
+.l-bottom{
+  width:100%;margin-top:80px;padding:64px 40px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;position:relative;overflow:hidden;text-align:center;
+}
+.l-bottom::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(201,169,110,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.l-bottom h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,6vw,72px);font-weight:300;
+  color:var(--text);line-height:1;margin-bottom:18px;position:relative;z-index:1;
+}
+.l-bottom h2 em{font-style:italic;color:var(--gold2)}
+.l-bottom p{font-size:13px;letter-spacing:.05em;color:var(--muted);margin-bottom:34px;position:relative;z-index:1}
+
+/* ═══════════════════════════════════════
+   FORM SCREEN
+═══════════════════════════════════════ */
+#form-screen{display:none;min-height:100vh;background:var(--bg);padding:60px 20px}
+.fw{max-width:660px;margin:0 auto}
+.back-btn{
+  display:inline-flex;align-items:center;gap:8px;background:none;border:none;
+  color:var(--faint);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.15em;
+  cursor:pointer;margin-bottom:48px;text-transform:uppercase;
+}
+.back-btn:hover{color:var(--text)}
+.f-title{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--text);margin-bottom:10px;text-align:center}
+.f-sub{font-size:12px;letter-spacing:.08em;color:var(--muted);text-align:center;margin-bottom:52px}
+
+/* ── Sections — base ── */
+.fsec{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:28px;margin-bottom:14px;
+  transition:border-color .3s,background .3s;
+}
+.fsec-num{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+.fl{display:block;font-size:12px;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;margin-top:20px}
+.fl:first-of-type{margin-top:0}
+.fin{
+  width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;color:var(--text);
+  font-family:'Jost',sans-serif;font-size:14px;outline:none;transition:border .2s;
+}
+.fin:focus{border-color:rgba(201,169,110,.4)}
+textarea.fin{resize:vertical;min-height:90px}
+.fin::placeholder{color:var(--faint)}
+
+/* ── Emotion-coded type cards ── */
+.gender-tabs{display:flex;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.gtab{
+  flex:1;padding:16px;text-align:center;cursor:pointer;
+  font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  transition:all .25s;color:var(--muted);background:transparent;
+  border:none;font-family:'Jost',sans-serif;
+}
+.gtab.girl.active{background:linear-gradient(135deg,rgba(255,140,190,.1),rgba(200,80,140,.07));color:#ffaad4;border-bottom:2px solid rgba(255,130,185,.6)}
+.gtab.boy.active{background:linear-gradient(135deg,rgba(70,140,255,.1),rgba(30,90,210,.07));color:#88bbff;border-bottom:2px solid rgba(80,140,255,.6)}
+.gtab.neutral.active{background:linear-gradient(135deg,rgba(201,169,110,.1),rgba(140,100,40,.07));color:var(--gold2);border-bottom:2px solid rgba(201,169,110,.5)}
+
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.ttype{
+  border-radius:10px;padding:14px;cursor:pointer;transition:all .25s;border:1px solid transparent;
+  position:relative;overflow:hidden;
+}
+/* memorial */
+.ttype-memorial{background:rgba(60,50,80,.3);border-color:rgba(100,80,140,.15)}
+.ttype-memorial.active{border-color:rgba(130,100,200,.5);background:rgba(80,60,120,.3);box-shadow:0 0 20px rgba(100,70,180,.1)}
+/* birthday */
+.ttype-birthday{background:rgba(70,55,20,.3);border-color:rgba(160,120,30,.15)}
+.ttype-birthday.active{border-color:rgba(200,160,60,.5);background:rgba(90,70,20,.3);box-shadow:0 0 20px rgba(180,140,40,.1)}
+/* anniversary */
+.ttype-anniversary{background:rgba(70,25,45,.3);border-color:rgba(160,55,90,.15)}
+.ttype-anniversary.active{border-color:rgba(210,80,120,.5);background:rgba(90,30,55,.3);box-shadow:0 0 20px rgba(180,60,100,.1)}
+/* love */
+.ttype-love{background:rgba(70,25,55,.3);border-color:rgba(180,70,130,.15)}
+.ttype-love.active{border-color:rgba(230,100,170,.5);background:rgba(90,30,70,.3);box-shadow:0 0 20px rgba(200,80,150,.1)}
+/* sorry */
+.ttype-sorry{background:rgba(55,18,18,.4);border-color:rgba(150,50,50,.2)}
+.ttype-sorry.active{border-color:rgba(200,70,70,.5);background:rgba(75,20,20,.4);box-shadow:0 0 20px rgba(160,40,40,.15)}
+
+.tt-icon{font-size:20px;margin-bottom:7px}
+.tt-name{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text)}
+.tt-desc{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}
+
+/* ── SECTION EMOTION STATES ── */
+/* Memorial section */
+.sec-memorial{border-color:rgba(100,80,160,.2)!important;background:linear-gradient(160deg,rgba(60,45,90,.25),var(--surface))!important}
+.sec-memorial .fsec-num{color:#b088ff}
+/* Birthday section */
+.sec-birthday{border-color:rgba(180,140,40,.2)!important;background:linear-gradient(160deg,rgba(80,60,20,.25),var(--surface))!important}
+.sec-birthday .fsec-num{color:#e8c860}
+/* Anniversary section */
+.sec-anniversary{border-color:rgba(180,60,100,.2)!important;background:linear-gradient(160deg,rgba(80,30,50,.25),var(--surface))!important}
+.sec-anniversary .fsec-num{color:#ff88aa}
+/* Love section */
+.sec-love{border-color:rgba(200,80,150,.2)!important;background:linear-gradient(160deg,rgba(80,25,60,.25),var(--surface))!important}
+.sec-love .fsec-num{color:#ff80cc}
+/* Sorry section */
+.sec-sorry{border-color:rgba(180,55,55,.25)!important;background:linear-gradient(160deg,rgba(70,18,18,.35),rgba(14,10,10,1))!important}
+.sec-sorry .fsec-num{color:#cc7070}
+
+/* ── APOLOGY special ── */
+.apology-wrap{
+  background:rgba(180,40,40,.06);
+  border:1px solid rgba(180,60,60,.2);
+  border-radius:12px;padding:22px;margin-bottom:20px;
+}
+.apology-heading{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:22px;font-weight:300;color:rgba(240,180,180,.85);
+  margin-bottom:10px;line-height:1.3;
+}
+.apology-body{
+  font-size:13px;color:rgba(200,150,150,.65);line-height:1.75;letter-spacing:.02em;
+}
+.apology-body strong{color:rgba(230,170,170,.8);font-weight:400}
+
+/* Apology tone cards */
+.atone-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.atone{
+  border-radius:10px;padding:14px 12px;cursor:pointer;
+  transition:all .25s;text-align:center;border:1px solid transparent;
+}
+.atone-gentle{background:rgba(50,40,70,.3);border-color:rgba(100,80,160,.1)}
+.atone-gentle.active{border-color:rgba(140,110,220,.45);background:rgba(70,55,100,.3)}
+.atone-raw{background:rgba(70,20,20,.35);border-color:rgba(160,50,50,.1)}
+.atone-raw.active{border-color:rgba(210,70,70,.45);background:rgba(90,25,25,.35)}
+.atone-hopeful{background:rgba(30,55,40,.3);border-color:rgba(60,120,80,.1)}
+.atone-hopeful.active{border-color:rgba(80,180,110,.45);background:rgba(30,75,50,.3)}
+.atone-closure{background:rgba(40,40,70,.3);border-color:rgba(80,80,160,.1)}
+.atone-closure.active{border-color:rgba(100,100,220,.45);background:rgba(50,50,90,.3)}
+.atone-icon{font-size:20px;display:block;margin-bottom:6px}
+.atone-name{font-size:12px;letter-spacing:.08em;color:var(--text)}
+.atone-desc{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4}
+
+/* ── Photo grid ── */
+.pgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
+.pslot{
+  aspect-ratio:1;border-radius:8px;border:1px dashed rgba(255,255,255,.09);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
+  font-size:11px;color:var(--faint);gap:4px;
+}
+.pslot:hover{border-color:var(--gold);background:rgba(201,169,110,.05)}
+.pslot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:8px}
+.pslot .prm{
+  position:absolute;top:4px;right:4px;background:rgba(0,0,0,.8);
+  border:none;color:white;border-radius:50%;width:20px;height:20px;
+  font-size:9px;cursor:pointer;display:none;align-items:center;justify-content:center;
+}
+.pslot:hover .prm{display:flex}
+.pcount{font-size:11px;color:var(--muted);letter-spacing:.05em;margin-top:10px}
+
+/* ── Fireworks ── */
+.fw-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fwopt{
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:10px;padding:13px 10px;cursor:pointer;transition:all .2s;
+  text-align:center;font-size:12px;letter-spacing:.05em;color:var(--muted);
+}
+.fwopt.active{border-color:var(--gold);color:var(--gold2);background:rgba(201,169,110,.07)}
+.fwopt .fwi{font-size:20px;display:block;margin-bottom:5px}
+/* Apology style — no celebration-named fireworks, renamed */
+.apology-fw .fwopt:nth-child(4){display:none} /* hide heart burst when in apology */
+
+/* ── Themes ── */
+.swatches{display:flex;gap:10px;flex-wrap:wrap}
+.sw{display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer}
+.sw-circle{width:44px;height:44px;border-radius:50%;border:3px solid transparent;transition:all .25s}
+.sw.sel .sw-circle{border-color:#fff;transform:scale(1.12)}
+.sw-lbl{font-size:10px;letter-spacing:.07em;color:var(--muted);text-transform:uppercase}
+.sw.sel .sw-lbl{color:var(--text)}
+
+/* ── Emotional FW banner ── */
+.fw-feel-banner{
+  border-radius:10px;padding:14px 16px;margin-bottom:16px;
+  font-size:13px;line-height:1.65;letter-spacing:.02em;
+  border:1px solid transparent;display:none;
+}
+.fw-feel-banner.visible{display:block}
+
+/* Memorial fw feel */
+.fw-feel-memorial{background:rgba(60,45,90,.25);border-color:rgba(100,80,160,.18);color:rgba(190,170,230,.7)}
+/* Birthday fw feel */
+.fw-feel-birthday{background:rgba(80,60,20,.25);border-color:rgba(180,140,40,.18);color:rgba(230,200,120,.7)}
+/* Anniversary fw feel */
+.fw-feel-anniversary{background:rgba(80,25,45,.25);border-color:rgba(180,60,100,.18);color:rgba(240,160,180,.7)}
+/* Love fw feel */
+.fw-feel-love{background:rgba(80,20,60,.25);border-color:rgba(200,70,150,.18);color:rgba(250,160,210,.7)}
+/* Sorry fw feel */
+.fw-feel-sorry{background:rgba(60,15,15,.3);border-color:rgba(160,50,50,.2);color:rgba(220,150,150,.65)}
+
+/* Emotional fw option states */
+.fwopt{
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:10px;padding:14px 12px;cursor:pointer;transition:all .25s;
+  text-align:center;font-size:12px;letter-spacing:.05em;color:var(--muted);
+  position:relative;overflow:hidden;
+}
+.fwopt .fwi{font-size:20px;display:block;margin-bottom:5px}
+.fwopt .fwname{display:block;color:var(--text);margin-bottom:3px}
+.fwopt .fwdesc{font-size:10px;color:var(--faint);display:block}
+.fwopt .fwmood{
+  font-family:'EB Garamond',serif;font-style:italic;
+  font-size:11px;display:block;margin-top:5px;opacity:0;
+  transition:opacity .25s;
+}
+.fwopt:hover .fwmood{opacity:1}
+.fwopt.active .fwmood{opacity:.8}
+/* type-specific active colors */
+.fwopt.active.fw-memorial{border-color:rgba(130,100,200,.5);background:rgba(70,55,110,.3);color:#c8aaff}
+.fwopt.active.fw-birthday{border-color:rgba(200,160,60,.5);background:rgba(90,70,20,.3);color:#e8c860}
+.fwopt.active.fw-anniversary{border-color:rgba(210,80,120,.5);background:rgba(90,30,55,.3);color:#ff99bb}
+.fwopt.active.fw-love{border-color:rgba(230,100,170,.5);background:rgba(90,25,70,.3);color:#ffaadd}
+.fwopt.active.fw-sorry{border-color:rgba(190,70,70,.5);background:rgba(80,20,20,.3);color:#e8aaaa}
+
+/* ── Audio section ── */
+.audio-feel-banner{
+  border-radius:10px;padding:14px 16px;margin-bottom:18px;
+  border:1px solid transparent;display:none;
+}
+.audio-feel-banner.visible{display:block}
+.audio-feel-sorry{background:rgba(60,15,15,.3);border-color:rgba(160,50,50,.2)}
+.audio-feel-sorry .af-quote{font-family:'EB Garamond',serif;font-style:italic;font-size:16px;color:rgba(230,160,160,.8);line-height:1.5;margin-bottom:8px}
+.audio-feel-sorry .af-sub{font-size:12px;color:rgba(180,110,110,.6);letter-spacing:.03em;line-height:1.6}
+.audio-feel-memorial{background:rgba(50,40,80,.25);border-color:rgba(100,80,160,.18)}
+.audio-feel-memorial .af-quote{font-family:'EB Garamond',serif;font-style:italic;font-size:16px;color:rgba(190,170,230,.8);line-height:1.5;margin-bottom:8px}
+.audio-feel-memorial .af-sub{font-size:12px;color:rgba(150,130,200,.6);letter-spacing:.03em;line-height:1.6}
+.audio-feel-love{background:rgba(70,20,55,.25);border-color:rgba(200,70,150,.18)}
+.audio-feel-love .af-quote{font-family:'EB Garamond',serif;font-style:italic;font-size:16px;color:rgba(240,160,210,.8);line-height:1.5;margin-bottom:8px}
+.audio-feel-love .af-sub{font-size:12px;color:rgba(200,130,180,.6);letter-spacing:.03em;line-height:1.6}
+.audio-feel-birthday{background:rgba(70,55,15,.25);border-color:rgba(180,140,40,.18)}
+.audio-feel-birthday .af-quote{font-family:'EB Garamond',serif;font-style:italic;font-size:16px;color:rgba(230,200,120,.8);line-height:1.5;margin-bottom:8px}
+.audio-feel-birthday .af-sub{font-size:12px;color:rgba(190,160,80,.6);letter-spacing:.03em;line-height:1.6}
+.audio-feel-anniversary{background:rgba(75,22,42,.25);border-color:rgba(180,60,100,.18)}
+.audio-feel-anniversary .af-quote{font-family:'EB Garamond',serif;font-style:italic;font-size:16px;color:rgba(240,160,180,.8);line-height:1.5;margin-bottom:8px}
+.audio-feel-anniversary .af-sub{font-size:12px;color:rgba(200,120,140,.6);letter-spacing:.03em;line-height:1.6}
+
+.audio-block{
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:12px;padding:20px;margin-bottom:14px;
+}
+.audio-block-header{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px}
+.audio-block-icon{font-size:28px;flex-shrink:0;margin-top:2px}
+.audio-block-title{font-size:14px;color:var(--text);letter-spacing:.03em;margin-bottom:4px}
+.audio-block-desc{font-size:12px;color:var(--muted);line-height:1.6;letter-spacing:.02em}
+.audio-upload-row{display:flex;gap:10px;flex-wrap:wrap}
+.audio-upload-btn,.audio-record-btn{
+  flex:1;min-width:120px;
+  padding:13px 16px;border-radius:10px;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:12px;letter-spacing:.08em;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .25s;border:1px solid var(--border);
+}
+.audio-upload-btn{background:rgba(255,255,255,.04);color:var(--text)}
+.audio-upload-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
+.audio-record-btn{background:rgba(201,169,110,.1);color:var(--gold2);border-color:rgba(201,169,110,.25)}
+.audio-record-btn:hover{background:rgba(201,169,110,.18);border-color:rgba(201,169,110,.4)}
+.audio-record-btn.recording{background:rgba(200,60,60,.15);color:#ff9090;border-color:rgba(200,60,60,.3);animation:recpulse 1.2s ease infinite}
+@keyframes recpulse{0%,100%{box-shadow:0 0 0 0 rgba(200,60,60,.3)}50%{box-shadow:0 0 0 6px rgba(200,60,60,0)}}
+.audio-preview-wrap{margin-top:14px;padding:14px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px}
+.audio-preview-label{font-size:11px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.audio-remove-btn{
+  background:none;border:none;color:var(--faint);font-size:11px;
+  cursor:pointer;margin-top:10px;letter-spacing:.05em;font-family:'Jost',sans-serif;
+}
+.audio-remove-btn:hover{color:rgba(200,80,80,.7)}
+.audio-recording-indicator{
+  display:flex;align-items:center;gap:10px;margin-top:14px;
+  font-size:13px;color:rgba(255,120,120,.8);letter-spacing:.05em;
+}
+.rec-dot{
+  width:10px;height:10px;border-radius:50%;background:#ff4444;
+  animation:recpulse 1s ease infinite;flex-shrink:0;
+}
+.stop-rec-btn{
+  margin-left:auto;background:rgba(200,60,60,.15);border:1px solid rgba(200,60,60,.3);
+  color:#ff9090;padding:6px 14px;border-radius:8px;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.08em;
+}
+.audio-divider{
+  text-align:center;margin:18px 0;position:relative;
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+}
+.audio-divider::before{
+  content:'';position:absolute;left:0;top:50%;width:100%;height:1px;
+  background:var(--border);z-index:0;
+}
+.audio-divider span{position:relative;z-index:1;background:var(--bg);padding:0 12px}
+/* inside surface */
+#sec-audio .audio-divider span{background:var(--surface)}
+
+.vo-tips{
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:10px;padding:16px 18px;
+}
+.vo-tips-title{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.vo-tips-list{display:flex;flex-direction:column;gap:8px}
+.vo-tip{
+  display:flex;gap:10px;align-items:flex-start;
+  font-family:'EB Garamond',serif;font-style:italic;
+  font-size:14px;color:rgba(232,228,222,.55);line-height:1.5;
+}
+.vo-tip-bullet{flex-shrink:0;font-size:16px;margin-top:1px}
+
+/* ── Music ── */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mopt{
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:10px;padding:13px;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;gap:11px;
+}
+.mopt.active{border-color:var(--gold);background:rgba(201,169,110,.07)}
+.mopt-icon{font-size:18px;flex-shrink:0}
+.mopt-name{font-size:13px;color:var(--text)}
+.mopt-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.mopt.active .mopt-name{color:var(--gold2)}
+/* Apology music — reordered in JS to show sad-first */
+
+.prev-area{text-align:center;padding:44px 0 24px}
+.prev-area p{font-size:11px;letter-spacing:.1em;color:var(--faint);margin-top:16px}
+
+input[type=file]{padding:10px;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;color:var(--text)}
+input[type=file]::file-selector-button{
+  background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.22);
+  color:var(--gold2);padding:8px 16px;border-radius:8px;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:12px;letter-spacing:.04em;margin-right:12px;
+}
+
+/* ═══════════════════════════════════════
+   TRIBUTE SCREEN
+═══════════════════════════════════════ */
+#tribute-screen{display:none;position:fixed;inset:0;z-index:300;overflow:hidden}
+#fw-canvas{position:absolute;inset:0;width:100%;height:100%}
+.petals-cv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
+.trib-wrap{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:40px;z-index:10;pointer-events:none;
+}
+
+/* photo layouts */
+.photos-box{margin-bottom:28px;opacity:0;animation:fadeUp 1.4s ease forwards .3s}
+.lay-1 .pf{width:118px;height:118px;border-radius:50%;overflow:hidden;margin:0 auto;border:3px solid var(--ta);box-shadow:0 0 60px var(--tg)}
+.lay-2{display:flex;gap:16px;justify-content:center}
+.lay-2 .pf{width:90px;height:90px;border-radius:50%;overflow:hidden;border:3px solid var(--ta);box-shadow:0 0 30px var(--tg)}
+.lay-3{display:flex;gap:12px;justify-content:center;align-items:center}
+.lay-3 .pf:nth-child(odd){width:70px;height:70px;border-radius:50%;overflow:hidden;border:2px solid var(--ta)}
+.lay-3 .pf:nth-child(2){width:100px;height:100px;border-radius:50%;overflow:hidden;border:3px solid var(--ta);box-shadow:0 0 40px var(--tg)}
+.lay-4{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:190px;margin:0 auto}
+.lay-4 .pf{width:86px;height:86px;border-radius:12px;overflow:hidden;border:2px solid var(--ta)}
+.lay-5,.lay-6,.lay-7,.lay-8,.lay-9,.lay-10{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:320px;margin:0 auto}
+.lay-5 .pf,.lay-6 .pf,.lay-7 .pf,.lay-8 .pf,.lay-9 .pf,.lay-10 .pf{width:66px;height:66px;border-radius:10px;overflow:hidden;border:2px solid var(--ta)}
+.pf img{width:100%;height:100%;object-fit:cover}
+
+.t-tag{
+  display:inline-block;border-radius:100px;
+  padding:6px 20px;font-size:10px;letter-spacing:.35em;text-transform:uppercase;
+  margin-bottom:14px;opacity:0;animation:fadeUp 1.4s ease forwards .35s;
+}
+.t-eyebrow{font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--ta);margin-bottom:14px;opacity:0;animation:fadeUp 1.4s ease forwards .65s}
+.t-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(48px,10vw,116px);font-weight:300;line-height:.93;
+  color:var(--tn);text-shadow:0 0 120px var(--tg);
+  margin-bottom:22px;opacity:0;animation:fadeUp 1.4s ease forwards 1s;
+}
+.t-name em{font-style:italic}
+.t-msg{
+  font-family:'EB Garamond',serif;font-style:italic;
+  font-size:clamp(16px,2.4vw,23px);color:var(--tm);
+  max-width:560px;line-height:1.75;
+  opacity:0;animation:fadeUp 1.4s ease forwards 1.4s;
+}
+.t-dates{font-size:11px;letter-spacing:.3em;color:var(--ta);margin-top:20px;opacity:0;animation:fadeUp 1.4s ease forwards 1.8s}
+
+.trib-close{
+  position:absolute;top:24px;right:24px;z-index:20;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
+  color:rgba(255,255,255,.35);width:42px;height:42px;border-radius:50%;
+  font-size:16px;cursor:pointer;pointer-events:all;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.trib-close:hover{background:rgba(255,255,255,.13);color:white}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Tribute Themes ── */
+.tp-rose   {--ta:#ff80bb;--tg:rgba(255,100,160,.45);--tn:#ffe0ee;--tm:rgba(255,210,235,.7);background:#0d040a}
+.tp-cherry {--ta:#ff6b8a;--tg:rgba(255,70,120,.45); --tn:#ffe8ee;--tm:rgba(255,195,215,.7);background:#0b0407}
+.tp-lavender{--ta:#c577ff;--tg:rgba(160,70,255,.45);--tn:#eedeff;--tm:rgba(215,185,255,.7);background:#090610}
+.tp-peach  {--ta:#ffaa80;--tg:rgba(255,140,70,.45); --tn:#ffeedd;--tm:rgba(255,215,195,.7);background:#0d0805}
+.tp-mint   {--ta:#6effc4;--tg:rgba(60,255,170,.4);  --tn:#d8fff2;--tm:rgba(165,240,210,.7);background:#040d09}
+.tp-navy   {--ta:#5599ff;--tg:rgba(60,110,255,.45); --tn:#ddeeff;--tm:rgba(175,210,255,.7);background:#030610}
+.tp-forest {--ta:#44dd99;--tg:rgba(40,190,110,.4);  --tn:#d8faee;--tm:rgba(165,240,205,.7);background:#030d07}
+.tp-steel  {--ta:#99bbdd;--tg:rgba(110,150,210,.4); --tn:#e8eff7;--tm:rgba(175,200,225,.7);background:#060810}
+.tp-ember  {--ta:#ff8844;--tg:rgba(255,110,40,.45); --tn:#ffe8d5;--tm:rgba(255,200,168,.7);background:#0d0503}
+.tp-midnight{--ta:#8877ff;--tg:rgba(110,90,255,.45);--tn:#eae5ff;--tm:rgba(200,190,255,.7);background:#04030e}
+.tp-gold   {--ta:#d4aa6a;--tg:rgba(210,165,80,.4);  --tn:#f5ede0;--tm:rgba(235,220,195,.7);background:#08070f}
+/* SORRY theme — no bright gold, just dim rose ash */
+.tp-sorry  {--ta:#c87070;--tg:rgba(180,70,70,.35);  --tn:#f0d8d8;--tm:rgba(230,195,195,.65);background:#0c0404}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     LANDING
+═══════════════════════════════════════ -->
+<section id="landing">
+ <div class="l-inner">
+
+  <nav class="l-nav">
+   <div class="l-logo">Forever Remembered</div>
+   <div class="l-price-badge">From $15 · Yours forever</div>
+  </nav>
+
+  <div class="l-eyebrow">Handcrafted tribute pages</div>
+  <h1 class="l-title">
+   They deserve<br>
+   <em>more than</em><br>
+   <span class="dim">a caption.</span>
+  </h1>
+  <div class="l-rule"></div>
+  <p class="l-hook">
+   The person you miss every single morning.<br>
+   The love that rewrote everything.<br>
+   The words you've been holding back for too long.
+  </p>
+  <p class="l-sub">
+   A tribute page — their name, your photos, your words,<br>
+   wrapped in the kind of beauty that makes people <strong>stop and feel something real.</strong>
+  </p>
+
+  <div class="l-cta">
+   <button class="btn-main" onclick="showForm()">Create Their Page →</button>
+   <div class="l-cta-note">One-time · $15 · Shareable link delivered instantly</div>
+  </div>
+  <div class="l-proof">
+   <div class="l-avs">
+    <div class="l-av">J</div><div class="l-av">M</div><div class="l-av">K</div><div class="l-av">R</div>
+   </div>
+   <span>2,847 tributes created this month</span>
+  </div>
+
+  <!-- Occasion cards — emotionally distinct -->
+  <div class="occ-section">
+   <div class="occ-label">What are you feeling?</div>
+   <div class="occ-grid">
+    <div class="ocard ocard-memorial" onclick="quickStart('memorial')">
+     <span class="ocard-icon">🕯️</span>
+     <div class="ocard-name">Memorial</div>
+     <div class="ocard-desc">For the ones we carry with us in silence</div>
+    </div>
+    <div class="ocard ocard-birthday" onclick="quickStart('birthday')">
+     <span class="ocard-icon">✨</span>
+     <div class="ocard-name">Birthday</div>
+     <div class="ocard-desc">Make them feel like the only person on earth</div>
+    </div>
+    <div class="ocard ocard-anniversary" onclick="quickStart('anniversary')">
+     <span class="ocard-icon">🥂</span>
+     <div class="ocard-name">Anniversary</div>
+     <div class="ocard-desc">A love story that deserves to be remembered</div>
+    </div>
+    <div class="ocard ocard-love" onclick="quickStart('love')">
+     <span class="ocard-icon">💌</span>
+     <div class="ocard-name">Love Letter</div>
+     <div class="ocard-desc">Say the thing you've been meaning to say</div>
+    </div>
+    <div class="ocard ocard-sorry" onclick="quickStart('sorry')">
+     <span class="ocard-icon">🤍</span>
+     <div class="ocard-name">Apology</div>
+     <div class="ocard-desc">Because some words are too heavy for a text</div>
+    </div>
+   </div>
+  </div>
+
+  <!-- Features -->
+  <div class="feat-strip">
+   <span class="feat-chip">✦ Up to 10 photos</span>
+   <span class="feat-chip">✦ For Her / For Him</span>
+   <span class="feat-chip">✦ 8 animation styles</span>
+   <span class="feat-chip">✦ 11 color themes</span>
+   <span class="feat-chip">✦ Apology page</span>
+   <span class="feat-chip">✦ Mood music</span>
+   <span class="feat-chip">✦ Shareable forever</span>
+  </div>
+
+  <!-- Testimonials -->
+  <div class="testi-row">
+   <div class="tc">
+    <div class="tc-stars">★★★★★</div>
+    <div class="tc-quote">"I sent it to my whole family. My mom said it was the most beautiful thing she'd ever seen."</div>
+    <div class="tc-name">— Jamie R.</div>
+   </div>
+   <div class="tc">
+    <div class="tc-stars">★★★★★</div>
+    <div class="tc-quote">"He texted me at 2am just to say he was still watching it. I cried twice making it."</div>
+    <div class="tc-name">— Marcus T.</div>
+   </div>
+   <div class="tc" style="border-color:rgba(180,60,60,.2);background:rgba(60,20,20,.35)">
+    <div class="tc-stars" style="color:#cc7070">★★★★★</div>
+    <div class="tc-quote">"I used the apology page. She called me within 10 minutes. I don't have words."</div>
+    <div class="tc-name">— Anonymous</div>
+   </div>
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="l-bottom">
+   <h2>Some things are<br><em>too important</em><br>for a text.</h2>
+   <p>Give them something they'll open again and again.</p>
+   <button class="btn-main" onclick="showForm()">Start Creating →</button>
+  </div>
+
+ </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     FORM SCREEN
+═══════════════════════════════════════ -->
+<section id="form-screen">
+ <div class="fw">
+  <button class="back-btn" onclick="showLanding()">← Back</button>
+  <h2 class="f-title" id="form-title">Build Their <em style="font-style:italic;color:var(--gold2)">Page</em></h2>
+  <p class="f-sub">Takes 3 minutes. Lasts forever.</p>
+
+  <!-- 01: WHO -->
+  <div class="fsec" id="sec-who">
+   <div class="fsec-num">01 — Who is this for?</div>
+   <div class="gender-tabs">
+    <button class="gtab girl active" onclick="setGender('girl',this)">🌸 For Her</button>
+    <button class="gtab boy" onclick="setGender('boy',this)">⚡ For Him</button>
+    <button class="gtab neutral" onclick="setGender('neutral',this)">✦ Anyone</button>
+   </div>
+   <div class="tgrid" id="type-grid"></div>
+  </div>
+
+  <!-- 02: STORY -->
+  <div class="fsec" id="sec-story">
+   <div class="fsec-num" id="story-num">02 — Their Story</div>
+   <label class="fl" id="name-label">Their name</label>
+   <input type="text" class="fin" id="inp-name" placeholder="e.g. Mom, Grandpa Joe, Sofia…" />
+   <label class="fl" id="msg-label">Your message</label>
+   <textarea class="fin" id="inp-msg" placeholder="Write what's in your heart. There are no wrong words here."></textarea>
+   <label class="fl">Important dates (optional)</label>
+   <input type="text" class="fin" id="inp-dates" placeholder="e.g. March 12, 1948 — November 3, 2023" />
+  </div>
+
+  <!-- 02b: APOLOGY (hidden unless sorry) -->
+  <div class="fsec sec-sorry" id="sec-apology" style="display:none">
+   <div class="fsec-num" style="color:#cc7070">02b — Your Apology</div>
+   <div class="apology-wrap">
+    <div class="apology-heading">"This takes courage."</div>
+    <div class="apology-body">
+     An apology page does what a text can never do — it shows them you cared enough to sit down, find words, and create something. <strong>The words you write here will be the only thing on their screen.</strong> No notifications. No emojis. Just you.
+    </div>
+   </div>
+   <label class="fl" style="color:rgba(200,140,140,.7)">What do you want to say? (write freely)</label>
+   <textarea class="fin" id="inp-apology" placeholder="I'm sorry for… I should have… What I want you to know is…" style="min-height:120px;border-color:rgba(180,60,60,.2);background:rgba(60,15,15,.3)"></textarea>
+   <label class="fl" style="color:rgba(200,140,140,.7);margin-top:20px">Tone</label>
+   <div class="atone-grid">
+    <div class="atone atone-gentle active" onclick="setATone(this,'gentle')">
+     <span class="atone-icon">🕊️</span>
+     <div class="atone-name">Gentle</div>
+     <div class="atone-desc">Quiet, humble, soft</div>
+    </div>
+    <div class="atone atone-raw" onclick="setATone(this,'raw')">
+     <span class="atone-icon">💔</span>
+     <div class="atone-name">Raw & Honest</div>
+     <div class="atone-desc">Unfiltered, straight from the gut</div>
+    </div>
+    <div class="atone atone-hopeful" onclick="setATone(this,'hopeful')">
+     <span class="atone-icon">🌱</span>
+     <div class="atone-name">Hopeful</div>
+     <div class="atone-desc">Asking for a second chance</div>
+    </div>
+    <div class="atone atone-closure" onclick="setATone(this,'closure')">
+     <span class="atone-icon">🌊</span>
+     <div class="atone-name">Closure</div>
+     <div class="atone-desc">Letting go, with love</div>
+    </div>
+   </div>
+  </div>
+
+  <!-- 03: PHOTOS -->
+  <div class="fsec" id="sec-photos">
+   <div class="fsec-num" id="photos-num">03 — Their Photos (up to 10)</div>
+   <p style="font-size:12px;color:var(--muted);letter-spacing:.03em;margin-bottom:14px;line-height:1.65">Each number of photos creates a unique layout. More photos = more cinematic.</p>
+   <div class="pgrid" id="photo-grid"></div>
+   <div class="pcount" id="photo-count">0 of 10 photos added</div>
+   <input type="file" id="pfile" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
+  </div>
+
+  <!-- 04: ANIMATION — emotionally dynamic -->
+  <div class="fsec" id="sec-fw">
+   <div class="fsec-num" id="fw-num">04 — Atmosphere</div>
+   <div class="fw-feel-banner" id="fw-feel-banner"></div>
+   <div class="fw-grid" id="fw-grid"></div>
+  </div>
+
+  <!-- 05: THEME -->
+  <div class="fsec" id="sec-theme">
+   <div class="fsec-num" id="theme-num">05 — Color Theme</div>
+   <div class="swatches" id="theme-grid"></div>
+  </div>
+
+  <!-- 06: MUSIC -->
+  <div class="fsec" id="sec-music">
+   <div class="fsec-num" id="music-num">06 — Mood Music</div>
+   <div class="mgrid" id="music-grid"></div>
+  </div>
+
+  <!-- 07: VOICE & AUDIO -->
+  <div class="fsec" id="sec-audio">
+   <div class="fsec-num" id="audio-num">07 — Voice &amp; Audio</div>
+   <div class="audio-feel-banner" id="audio-feel-banner"></div>
+   <div class="audio-block">
+    <div class="audio-block-header">
+     <span class="audio-block-icon" id="vo-icon">🎙️</span>
+     <div>
+      <div class="audio-block-title" id="vo-title">Add Your Voice</div>
+      <div class="audio-block-desc" id="vo-desc">Record or upload a voice message that plays when they open the page.</div>
+     </div>
+    </div>
+    <div class="audio-upload-row">
+     <button class="audio-upload-btn" onclick="document.getElementById('vo-file').click()">
+      <span>📂</span> Upload Audio
+     </button>
+     <button class="audio-record-btn" id="record-btn" onclick="toggleRecord()">
+      <span id="rec-icon">⏺</span> <span id="rec-label">Record</span>
+     </button>
+    </div>
+    <input type="file" id="vo-file" accept="audio/*" style="display:none" onchange="handleVoice(this)"/>
+    <div class="audio-preview-wrap" id="audio-preview-wrap" style="display:none">
+     <div class="audio-preview-label">Your voice message</div>
+     <audio id="audio-preview" controls style="width:100%;margin-top:8px;accent-color:var(--gold)"></audio>
+     <button class="audio-remove-btn" onclick="removeAudio()">✕ Remove</button>
+    </div>
+    <div class="audio-recording-indicator" id="recording-indicator" style="display:none">
+     <span class="rec-dot"></span> Recording... <span id="rec-timer">0:00</span>
+     <button class="stop-rec-btn" onclick="stopRecord()">■ Stop</button>
+    </div>
+   </div>
+   <div class="audio-divider"><span>not sure what to say?</span></div>
+   <div class="vo-tips" id="vo-tips">
+    <div class="vo-tips-title" id="vt-title">What to say in your recording</div>
+    <div class="vo-tips-list" id="vt-list"></div>
+   </div>
+  </div>
+
+  <div class="prev-area">
+   <button class="btn-main" id="preview-btn" onclick="showTribute()">✦ Preview Their Page</button>
+   <p>Free preview. Pay $15 to get your shareable link.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     TRIBUTE SCREEN
+═══════════════════════════════════════ -->
+<section id="tribute-screen">
+ <canvas id="fw-canvas"></canvas>
+ <canvas class="petals-cv" id="petals-cv"></canvas>
+ <div class="trib-wrap">
+  <div class="t-tag" id="t-tag" style="display:none"></div>
+  <div class="photos-box" id="t-photos"></div>
+  <div class="t-eyebrow" id="t-eyebrow"></div>
+  <div class="t-name" id="t-name"><em>Their Name</em></div>
+  <div class="t-msg" id="t-msg"></div>
+  <div class="t-dates" id="t-dates"></div>
+ </div>
+ <button class="trib-close" onclick="closeTribute()">✕</button>
+</section>
+
+<script>
+// ══ State ══
+const S={gender:'girl',type:'memorial',fw:'burst',theme:'tp-rose',music:'piano',aTone:'gentle',photos:[]};
+
+// ══ Data ══
+const TYPES={
+  girl:[
+    {id:'memorial',cls:'ttype-memorial',icon:'🕯️',n:'Memorial',d:'She is always with us'},
+    {id:'birthday',cls:'ttype-birthday',icon:'✨',n:'Birthday',d:'Celebrate her day'},
+    {id:'anniversary',cls:'ttype-anniversary',icon:'🥂',n:'Anniversary',d:'A love story forever'},
+    {id:'love',cls:'ttype-love',icon:'💌',n:'Love Letter',d:'She means everything'},
+    {id:'sorry',cls:'ttype-sorry',icon:'🤍',n:'Apology',d:'For her, with everything you have'},
+  ],
+  boy:[
+    {id:'memorial',cls:'ttype-memorial',icon:'🕯️',n:'Memorial',d:'He lives on forever'},
+    {id:'birthday',cls:'ttype-birthday',icon:'✨',n:'Birthday',d:'Celebrate his day'},
+    {id:'anniversary',cls:'ttype-anniversary',icon:'🥂',n:'Anniversary',d:'Cheers to you both'},
+    {id:'love',cls:'ttype-love',icon:'💌',n:'Love Letter',d:'He is everything'},
+    {id:'sorry',cls:'ttype-sorry',icon:'🤍',n:'Apology',d:'For him, with everything you have'},
+  ],
+  neutral:[
+    {id:'memorial',cls:'ttype-memorial',icon:'🕯️',n:'Memorial',d:'Always remembered'},
+    {id:'birthday',cls:'ttype-birthday',icon:'✨',n:'Birthday',d:'Celebrate their day'},
+    {id:'anniversary',cls:'ttype-anniversary',icon:'🥂',n:'Anniversary',d:'A love story forever'},
+    {id:'love',cls:'ttype-love',icon:'💌',n:'Love Letter',d:'They mean everything'},
+    {id:'sorry',cls:'ttype-sorry',icon:'🤍',n:'Apology',d:'Because you care enough'},
+  ],
+};
+
+const GIRL_T=[
+  {id:'tp-rose',n:'Rose',c:'linear-gradient(135deg,#ff80bb,#cc2266)'},
+  {id:'tp-cherry',n:'Cherry',c:'linear-gradient(135deg,#ff6b8a,#aa1144)'},
+  {id:'tp-lavender',n:'Lavender',c:'linear-gradient(135deg,#c577ff,#8822cc)'},
+  {id:'tp-peach',n:'Peach',c:'linear-gradient(135deg,#ffaa80,#dd5522)'},
+  {id:'tp-mint',n:'Mint',c:'linear-gradient(135deg,#6effc4,#22aa66)'},
+];
+const BOY_T=[
+  {id:'tp-navy',n:'Navy',c:'linear-gradient(135deg,#5599ff,#0022cc)'},
+  {id:'tp-forest',n:'Forest',c:'linear-gradient(135deg,#44dd99,#117733)'},
+  {id:'tp-steel',n:'Steel',c:'linear-gradient(135deg,#99bbdd,#334466)'},
+  {id:'tp-ember',n:'Ember',c:'linear-gradient(135deg,#ff8844,#aa3300)'},
+  {id:'tp-midnight',n:'Midnight',c:'linear-gradient(135deg,#8877ff,#220088)'},
+];
+const NEUT_T=[
+  {id:'tp-gold',n:'Gold',c:'linear-gradient(135deg,#d4aa6a,#7a4e1a)'},
+];
+const SORRY_T=[
+  {id:'tp-sorry',n:'Ash Rose',c:'linear-gradient(135deg,#c87070,#6a2020)'},
+  {id:'tp-midnight',n:'Midnight',c:'linear-gradient(135deg,#8877ff,#220088)'},
+  {id:'tp-steel',n:'Grey',c:'linear-gradient(135deg,#99bbdd,#334466)'},
+];
+
+const EYEBROWS={
+  girl:{memorial:'In Her Memory',birthday:'Happy Birthday',anniversary:'Happy Anniversary',love:'With All My Love',sorry:'A Message From the Heart'},
+  boy:{memorial:'In His Memory',birthday:'Happy Birthday',anniversary:'Happy Anniversary',love:'With All My Love',sorry:'A Message From the Heart'},
+  neutral:{memorial:'In Loving Memory',birthday:'Happy Birthday',anniversary:'Happy Anniversary',love:'With All My Love',sorry:'A Message From the Heart'},
+};
+
+const ALL_MUSIC=[
+  {id:'piano',icon:'🎹',n:'Soft Piano',d:'Tender & intimate'},
+  {id:'strings',icon:'🎻',n:'Strings',d:'Deep & emotional'},
+  {id:'ambient',icon:'🌌',n:'Ambient Dream',d:'Floating & ethereal'},
+  {id:'acoustic',icon:'🎸',n:'Acoustic',d:'Warm & human'},
+  {id:'cinematic',icon:'🎬',n:'Cinematic',d:'Big & powerful'},
+  {id:'none',icon:'🔇',n:'No Music',d:'Silence'},
+];
+const SORRY_MUSIC=[
+  {id:'strings',icon:'🎻',n:'Strings',d:'Heavy, slow, real'},
+  {id:'piano',icon:'🎹',n:'Soft Piano',d:'Fragile & honest'},
+  {id:'ambient',icon:'🌌',n:'Ambient',d:'Empty & vast'},
+  {id:'none',icon:'🔇',n:'Silence',d:'Just the words'},
+  {id:'acoustic',icon:'🎸',n:'Acoustic',d:'Quiet & intimate'},
+  {id:'cinematic',icon:'🎬',n:'Cinematic',d:'Weight of it all'},
+];
+
+// ── Emotion context per type ──
+const EMOTION_CTX={
+  memorial:{
+    secClass:'sec-memorial', storyLabel:'Their Story',
+    nameLabel:'Their name', msgLabel:'Your message to them',
+    msgPlaceholder:'Write what they meant to you. There are no wrong words.',
+    fwLabel:'04 — Animation Style', themeLabel:'05 — Color Theme', musicLabel:'06 — Mood Music',
+    previewBtn:'✦ Preview Their Memorial',
+  },
+  birthday:{
+    secClass:'sec-birthday', storyLabel:'Celebrate Them',
+    nameLabel:'Their name', msgLabel:'Your message',
+    msgPlaceholder:'What do you love most about them? Make them feel it.',
+    fwLabel:'04 — Celebration Style', themeLabel:'05 — Their Color', musicLabel:'06 — Party Music',
+    previewBtn:'✦ Preview Their Birthday Page',
+  },
+  anniversary:{
+    secClass:'sec-anniversary', storyLabel:'Your Love Story',
+    nameLabel:'Their name (or both names)',msgLabel:'Your message',
+    msgPlaceholder:'Where it started, what it became, what it means now…',
+    fwLabel:'04 — Romance Style',themeLabel:'05 — Love Color',musicLabel:'06 — Romantic Music',
+    previewBtn:'✦ Preview Your Anniversary Page',
+  },
+  love:{
+    secClass:'sec-love', storyLabel:'Your Letter',
+    nameLabel:'Their name', msgLabel:'Your letter to them',
+    msgPlaceholder:'Say what you\'ve been holding back. They need to hear it.',
+    fwLabel:'04 — Expression Style',themeLabel:'05 — Feel of It',musicLabel:'06 — The Mood',
+    previewBtn:'✦ Preview Your Love Letter',
+  },
+  sorry:{
+    secClass:'sec-sorry', storyLabel:'Your Words',
+    nameLabel:'Their name', msgLabel:'Your note (shown on page)',
+    msgPlaceholder:'If there\'s anything else you want shown alongside your apology...',
+    fwLabel:'04 — Atmosphere',themeLabel:'05 — Tone',musicLabel:'06 — Background',
+    previewBtn:'✦ Preview Your Apology Page',
+  },
+};
+
+// ── Build / init ──
+buildTypeGrid(); buildThemeGrid(); buildMusicGrid(); buildPhotoGrid(); buildFwGrid(); buildAudioBanner(); applyEmotion();
+
+// ══ Emotional FW data per type ══
+const FW_DATA={
+  memorial:[
+    {id:'snow',   icon:'❄️',name:'Snowfall',     desc:'Soft, endless drift',    mood:'"Like ashes drifting — peaceful, quiet, eternal."'},
+    {id:'shower', icon:'✨',name:'Falling Stars', desc:'Stars cascading down',   mood:'"Stars falling the moment they see the name."'},
+    {id:'ring',   icon:'⭕',name:'Ring of Light', desc:'Quiet expanding rings',  mood:'"A ripple that never ends — like their impact."'},
+    {id:'spiral', icon:'🌀',name:'Spiral',        desc:'Pulling inward gently',  mood:'"Pulled into memory, slowly, gently."'},
+    {id:'bloom',  icon:'🌸',name:'Bloom',         desc:'Petals opening slowly',  mood:'"Everything they were, unfolding one last time."'},
+    {id:'burst',  icon:'✦', name:'Burst of Light',desc:'Light breaking open',   mood:'"The way they lit up every room."'},
+    {id:'comet',  icon:'☄️',name:'Comets',        desc:'Streaking trails',       mood:'"Still moving. Still here."'},
+  ],
+  birthday:[
+    {id:'burst',  icon:'✦', name:'Confetti Burst',desc:'Explosive joy',         mood:'"The moment everyone yells surprise."'},
+    {id:'shower', icon:'✨',name:'Star Rain',      desc:'Gold raining down',     mood:'"It rains gold for them today."'},
+    {id:'spiral', icon:'🌀',name:'Spiral Joy',    desc:'Spinning energy',        mood:'"Dizzy with happiness — the best kind."'},
+    {id:'bloom',  icon:'🌸',name:'Bloom',         desc:'Flowers opening wide',   mood:'"Watch them light up."'},
+    {id:'comet',  icon:'☄️',name:'Shooting Stars',desc:'Wishes in motion',       mood:'"Every candle wish, flying."'},
+    {id:'heart',  icon:'💛',name:'Heart Burst',   desc:'Love shape exploding',   mood:'"Because they are so loved."'},
+    {id:'ring',   icon:'⭕',name:'Rings of Gold', desc:'Expanding golden rings', mood:'"Ripples of joy, outward forever."'},
+    {id:'snow',   icon:'🎊',name:'Confetti Fall', desc:'Gentle shimmer',         mood:'"The soft shimmer after the party starts."'},
+  ],
+  anniversary:[
+    {id:'heart',  icon:'💛',name:'Heart Burst',   desc:'Love shape',             mood:'"What all of this has always been."'},
+    {id:'bloom',  icon:'🌸',name:'Petal Bloom',   desc:'Still blooming',         mood:'"Still blooming, years later."'},
+    {id:'spiral', icon:'🌀',name:'Spiral',        desc:'Two lives intertwining', mood:'"Two lives, one spiral."'},
+    {id:'burst',  icon:'✦', name:'Starlight',     desc:'Bursting with feeling',  mood:'"The way it felt the first time."'},
+    {id:'shower', icon:'✨',name:'Star Shower',   desc:'Everything wished for',  mood:'"Everything you wished for, falling."'},
+    {id:'ring',   icon:'⭕',name:'Love Rings',    desc:'One ring to forever',    mood:'"One ring becomes two becomes forever."'},
+    {id:'snow',   icon:'❄️',name:'Snowfall',      desc:'Quiet tender love',      mood:'"Quiet love. The kind that stays."'},
+    {id:'comet',  icon:'☄️',name:'Comets',        desc:'Still moving together',  mood:'"Still moving together."'},
+  ],
+  love:[
+    {id:'heart',  icon:'💛',name:'Heart Burst',   desc:'Everything at once',     mood:'"Say it in the most beautiful way possible."'},
+    {id:'bloom',  icon:'🌸',name:'Bloom',         desc:'Opening petals',         mood:'"Watch something beautiful open."'},
+    {id:'shower', icon:'✨',name:'Star Shower',   desc:'Universe throwing it all',mood:'"The universe throwing everything at once."'},
+    {id:'spiral', icon:'🌀',name:'Spiral',        desc:'Pulled inward softly',   mood:'"Falling in, softly."'},
+    {id:'burst',  icon:'✦', name:'Starlight',     desc:'Bursting outward',       mood:'"The way you feel when you think of them."'},
+    {id:'ring',   icon:'⭕',name:'Love Rings',    desc:'One thought, radiating', mood:'"One thought, radiating outward."'},
+    {id:'comet',  icon:'☄️',name:'Comets',        desc:'Moving fast',            mood:'"Moving fast. No going back."'},
+    {id:'snow',   icon:'❄️',name:'Snowfall',      desc:'Soft, certain',          mood:'"Soft. Quiet. Certain."'},
+  ],
+  sorry:[
+    {id:'snow',   icon:'❄️',name:'Snowfall',      desc:'Words drifting slowly',  mood:'"Words falling slowly — like you mean them."'},
+    {id:'ring',   icon:'⭕',name:'Soft Rings',    desc:'Quiet expanding rings',  mood:'"A ripple reaching them across the distance."'},
+    {id:'shower', icon:'✨',name:'Falling Light', desc:'Unsaid things falling',  mood:'"Everything unsaid, finally falling."'},
+    {id:'spiral', icon:'🌀',name:'Spiral',        desc:'Circling back',          mood:'"Circling back to what matters."'},
+    {id:'bloom',  icon:'🌸',name:'Bloom',         desc:'Something fragile, trying',mood:'"Something fragile, still trying to grow."'},
+    {id:'burst',  icon:'✦', name:'Breaking Open', desc:'Honest light',           mood:'"When you finally let the truth out."'},
+    {id:'comet',  icon:'☄️',name:'Comets',        desc:'What you left behind',   mood:'"What you left behind, still glowing."'},
+  ],
+};
+
+// ══ Voice tips per type ══
+const VO_TIPS={
+  memorial:[
+    {icon:'🕯️',text:'"Remember the first time I realized how much you meant to me..."'},
+    {icon:'🌿',text:'"Here is what I want people to know about you..."'},
+    {icon:'💬',text:'"I still talk to you sometimes. This is one of those times."'},
+    {icon:'✉️',text:'"I want whoever watches this to know exactly who you were."'},
+  ],
+  birthday:[
+    {icon:'🎂',text:'"I just want to say out loud how much you mean to me..."'},
+    {icon:'✨',text:'"I have been thinking about the day we met, and I keep coming back to..."'},
+    {icon:'💌',text:'"I am so grateful you were born. Let me tell you why."'},
+  ],
+  anniversary:[
+    {icon:'💍',text:'"I want to say this every year but today I am actually saying it..."'},
+    {icon:'🌹',text:'"The thing about loving you is..."'},
+    {icon:'🥂',text:'"Here is what I remember about the day everything changed..."'},
+  ],
+  love:[
+    {icon:'💌',text:'"I have been trying to say this for a long time. Here it is."'},
+    {icon:'🌙',text:'"You do not know this, but you changed everything. I want to explain how."'},
+    {icon:'✨',text:'"I keep thinking about you and I finally decided to just say it."'},
+  ],
+  sorry:[
+    {icon:'🤍',text:'"I know this is too late but I need you to hear this from me."'},
+    {icon:'🌊',text:'"I have been thinking about what I did, and I need to say..."'},
+    {icon:'🕊️',text:'"I am not asking for anything. I just need you to know I am sorry."'},
+    {icon:'💔',text:'"You deserved better. That is the truth. And I am so sorry."'},
+  ],
+};
+
+// ══ Audio state ══
+let voiceBlob=null,mediaRecorder=null,recChunks=[],recInterval=null,recSeconds=0;
+
+function buildFwGrid(){
+  const data=(FW_DATA[S.type]||FW_DATA.memorial);
+  const cls='fw-'+S.type;
+  // default fw to first of type
+  if(!data.find(f=>f.id===S.fw)) S.fw=data[0].id;
+  document.getElementById('fw-grid').innerHTML=data.map(f=>`
+    <div class="fwopt ${cls}${f.id===S.fw?' active '+cls:''}" data-fw="${f.id}" onclick="setFw(this,'${f.id}')">
+      <span class="fwi">${f.icon}</span>
+      <span class="fwname">${f.name}</span>
+      <span class="fwdesc">${f.desc}</span>
+      <span class="fwmood">${f.mood}</span>
+    </div>`).join('');
+  const feelTexts={
+    memorial:'Choose the atmosphere that captures how grief actually feels — quiet, vast, still falling.',
+    birthday:'Choose how the joy should move — explosive, warm, or gently raining down.',
+    anniversary:'Choose how love looks in motion — spiraling, bursting, or softly glowing.',
+    love:'Choose how your feeling should look when it fills their screen.',
+    sorry:'Choose the atmosphere that matches the weight of what you need to say.',
+  };
+  const banner=document.getElementById('fw-feel-banner');
+  banner.className='fw-feel-banner fw-feel-'+(S.type)+' visible';
+  banner.textContent=feelTexts[S.type]||'';
+}
+
+function buildAudioBanner(){
+  const banners={
+    sorry:{cls:'audio-feel-sorry',quote:'"Your voice will do what words on a screen cannot."',sub:'When they press play and hear you — that is the moment that changes things.'},
+    memorial:{cls:'audio-feel-memorial',quote:'"Let them hear the love."',sub:'Upload a recording of their voice, a song they loved, or record yourself speaking to them.'},
+    love:{cls:'audio-feel-love',quote:'"Your voice saying their name will break them open."',sub:'Nothing carries feeling like a voice. Record or upload something that makes it real.'},
+    birthday:{cls:'audio-feel-birthday',quote:'"Hear it, not just read it."',sub:'A voice message hits different. Record yourself or upload a song.'},
+    anniversary:{cls:'audio-feel-anniversary',quote:'"The voice they fell in love with."',sub:'Record something. It will be the part they play again and again.'},
+  };
+  const b=banners[S.type]||banners.memorial;
+  const el=document.getElementById('audio-feel-banner');
+  el.className='audio-feel-banner '+b.cls+' visible';
+  el.innerHTML='<div class="af-quote">'+b.quote+'</div><div class="af-sub">'+b.sub+'</div>';
+  const tips=VO_TIPS[S.type]||VO_TIPS.memorial;
+  document.getElementById('vt-list').innerHTML=tips.map(t=>`
+    <div class="vo-tip"><span class="vo-tip-bullet">${t.icon}</span><span>${t.text}</span></div>`).join('');
+  const icons={memorial:'🕯️',birthday:'🎂',anniversary:'💍',love:'💌',sorry:'🤍'};
+  const vt={memorial:'Add Their Voice — or Yours',birthday:'Record a Birthday Message',anniversary:'Record Something Real',love:'Say It Out Loud',sorry:'Let Them Hear You'};
+  const vd={memorial:'Upload a recording of their voice, a song they loved, or record yourself.',birthday:'Your voice saying happy birthday will mean more than any card.',anniversary:'The voice they fell in love with. Record something.',love:'Your voice saying this will change everything.',sorry:'Hearing you is different from reading you. This is your chance.'};
+  document.getElementById('vo-icon').textContent=icons[S.type]||'🎙️';
+  document.getElementById('vo-title').textContent=vt[S.type]||'Add Your Voice';
+  document.getElementById('vo-desc').textContent=vd[S.type]||'Record or upload a voice message.';
+}
+
+function handleVoice(inp){
+  if(!inp.files[0]) return;
+  voiceBlob=inp.files[0];
+  document.getElementById('audio-preview').src=URL.createObjectURL(voiceBlob);
+  document.getElementById('audio-preview-wrap').style.display='block';
+  inp.value='';
+}
+function removeAudio(){
+  voiceBlob=null;
+  document.getElementById('audio-preview').src='';
+  document.getElementById('audio-preview-wrap').style.display='none';
+}
+async function toggleRecord(){
+  if(mediaRecorder&&mediaRecorder.state==='recording'){stopRecord();return;}
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    mediaRecorder=new MediaRecorder(stream);recChunks=[];recSeconds=0;
+    mediaRecorder.ondataavailable=e=>recChunks.push(e.data);
+    mediaRecorder.onstop=()=>{
+      voiceBlob=new Blob(recChunks,{type:'audio/webm'});
+      document.getElementById('audio-preview').src=URL.createObjectURL(voiceBlob);
+      document.getElementById('audio-preview-wrap').style.display='block';
+      stream.getTracks().forEach(t=>t.stop());
+      clearInterval(recInterval);
+      document.getElementById('recording-indicator').style.display='none';
+      document.getElementById('record-btn').classList.remove('recording');
+      document.getElementById('rec-icon').textContent='⏺';
+      document.getElementById('rec-label').textContent='Record';
+    };
+    mediaRecorder.start();
+    document.getElementById('recording-indicator').style.display='flex';
+    document.getElementById('record-btn').classList.add('recording');
+    document.getElementById('rec-icon').textContent='⏹';
+    document.getElementById('rec-label').textContent='Recording...';
+    recInterval=setInterval(()=>{
+      recSeconds++;
+      const m=Math.floor(recSeconds/60),s=recSeconds%60;
+      document.getElementById('rec-timer').textContent=m+':'+(s<10?'0':'')+s;
+    },1000);
+  }catch(e){alert('Microphone access denied. Please allow microphone access and try again.');}
+}
+function stopRecord(){if(mediaRecorder&&mediaRecorder.state==='recording')mediaRecorder.stop();}
+
+
+function buildTypeGrid(){
+  const g=document.getElementById('type-grid');
+  g.innerHTML=TYPES[S.gender].map(t=>`
+    <div class="ttype ${t.cls}${t.id===S.type?' active':''}" onclick="setType(this,'${t.id}')">
+      <div class="tt-icon">${t.icon}</div>
+      <div class="tt-name">${t.n}</div>
+      <div class="tt-desc">${t.d}</div>
+    </div>`).join('');
+}
+
+function buildThemeGrid(){
+  const themes=S.type==='sorry'?SORRY_T:[...(S.gender==='girl'?GIRL_T:S.gender==='boy'?BOY_T:NEUT_T),...NEUT_T];
+  const seen=new Set(); const uniq=themes.filter(t=>!seen.has(t.id)&&seen.add(t.id));
+  if(!uniq.find(t=>t.id===S.theme)) S.theme=uniq[0].id;
+  document.getElementById('theme-grid').innerHTML=uniq.map(t=>`
+    <div class="sw${t.id===S.theme?' sel':''}" onclick="setTheme(this,'${t.id}')">
+      <div class="sw-circle" style="background:${t.c}"></div>
+      <div class="sw-lbl">${t.n}</div>
+    </div>`).join('');
+}
+
+function buildMusicGrid(){
+  const list=S.type==='sorry'?SORRY_MUSIC:ALL_MUSIC;
+  if(!S.music||!list.find(m=>m.id===S.music)) S.music=list[0].id;
+  document.getElementById('music-grid').innerHTML=list.map(m=>`
+    <div class="mopt${m.id===S.music?' active':''}" onclick="setMusic(this,'${m.id}')">
+      <span class="mopt-icon">${m.icon}</span>
+      <div><div class="mopt-name">${m.n}</div><div class="mopt-desc">${m.d}</div></div>
+    </div>`).join('');
+}
+
+function buildPhotoGrid(){
+  const g=document.getElementById('photo-grid'); g.innerHTML='';
+  for(let i=0;i<10;i++){
+    const s=document.createElement('div'); s.className='pslot';
+    if(S.photos[i]){
+      s.innerHTML=`<img src="${S.photos[i]}"/><button class="prm" onclick="rmPhoto(event,${i})">✕</button>`;
+    } else if(i===S.photos.length){
+      s.innerHTML=`<span style="font-size:18px">＋</span><span>Add</span>`;
+      s.onclick=()=>document.getElementById('pfile').click();
+    } else {
+      s.style.opacity='.2'; s.innerHTML=`<span>${i+1}</span>`;
+    }
+    g.appendChild(s);
+  }
+  document.getElementById('photo-count').textContent=`${S.photos.length} of 10 photos added`;
+}
+
+function applyEmotion(){
+  const ctx=EMOTION_CTX[S.type]||EMOTION_CTX.memorial;
+  // Section emotion classes
+  const secs=['sec-story','sec-photos','sec-fw','sec-theme','sec-music','sec-audio'];
+  secs.forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    el.className='fsec '+ctx.secClass;
+  });
+  document.getElementById('sec-who').className='fsec '+ctx.secClass;
+  if(document.getElementById('sec-apology')) document.getElementById('sec-apology').className='fsec sec-sorry';
+  // Labels
+  document.getElementById('story-num').textContent='02 — '+ctx.storyLabel;
+  document.getElementById('name-label').textContent=ctx.nameLabel;
+  document.getElementById('msg-label').textContent=ctx.msgLabel;
+  document.getElementById('inp-msg').placeholder=ctx.msgPlaceholder;
+  document.getElementById('fw-num').textContent=ctx.fwLabel;
+  document.getElementById('theme-num').textContent=ctx.themeLabel;
+  document.getElementById('music-num').textContent=ctx.musicLabel;
+  document.getElementById('preview-btn').textContent=ctx.previewBtn;
+  // Apology section
+  document.getElementById('sec-apology').style.display=S.type==='sorry'?'block':'none';
+  // Form title
+  const titles={memorial:'Build Their <em style="font-style:italic;color:var(--gold2)">Memorial</em>',
+    birthday:'Build Their <em style="font-style:italic;color:#e8c860">Birthday Page</em>',
+    anniversary:'Build Your <em style="font-style:italic;color:#ff88aa">Anniversary Page</em>',
+    love:'Write Your <em style="font-style:italic;color:#ff80cc">Love Letter</em>',
+    sorry:'Write Your <em style="font-style:italic;color:#cc7070">Apology</em>'};
+  document.getElementById('form-title').innerHTML=titles[S.type]||titles.memorial;
+  // Rebuild emotion-dependent grids
+  buildFwGrid();
+  buildAudioBanner();
+}
+
+// ── Setters ──
+function setGender(g,el){
+  S.gender=g;
+  document.querySelectorAll('.gtab').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  if(S.type!=='sorry') S.theme=g==='girl'?'tp-rose':g==='boy'?'tp-navy':'tp-gold';
+  buildTypeGrid(); buildThemeGrid();
+}
+function setType(el,val){
+  document.querySelectorAll('.ttype').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active'); S.type=val;
+  if(val==='sorry'){S.theme='tp-sorry';}
+  else if(S.gender==='girl') S.theme='tp-rose';
+  else if(S.gender==='boy') S.theme='tp-navy';
+  else S.theme='tp-gold';
+  buildThemeGrid(); buildMusicGrid(); applyEmotion();
+}
+function setFw(el,val){
+  const cls='fw-'+S.type;
+  document.querySelectorAll('.fwopt').forEach(e=>{e.classList.remove('active');e.classList.remove(cls);});
+  el.classList.add('active'); el.classList.add(cls); S.fw=val;
+}
+function setTheme(el,val){
+  document.querySelectorAll('.sw').forEach(e=>e.classList.remove('sel'));
+  el.classList.add('sel'); S.theme=val;
+}
+function setMusic(el,val){
+  document.querySelectorAll('.mopt').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active'); S.music=val;
+}
+function setATone(el,val){
+  document.querySelectorAll('.atone').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active'); S.aTone=val;
+}
+function handlePhoto(inp){
+  if(!inp.files[0]||S.photos.length>=10) return;
+  const r=new FileReader();
+  r.onload=e=>{S.photos.push(e.target.result);buildPhotoGrid();inp.value='';};
+  r.readAsDataURL(inp.files[0]);
+}
+function rmPhoto(ev,i){ev.stopPropagation();S.photos.splice(i,1);buildPhotoGrid();}
+
+// ── Nav ──
+function showForm(type){
+  if(type){S.type=type;}
+  document.getElementById('landing').style.display='none';
+  document.getElementById('form-screen').style.display='block';
+  buildTypeGrid(); buildThemeGrid(); buildMusicGrid(); applyEmotion();
+  window.scrollTo(0,0);
+}
+function quickStart(t){S.type=t;showForm(t);}
+function showLanding(){
+  document.getElementById('form-screen').style.display='none';
+  document.getElementById('landing').style.display='flex';
+}
+function closeTribute(){
+  stopFw();stopPetals();
+  document.getElementById('tribute-screen').style.display='none';
+  document.getElementById('form-screen').style.display='block';
+}
+
+// ── Build photos HTML ──
+function buildPhotosHTML(){
+  const n=S.photos.length; if(!n) return '';
+  return `<div class="lay-${n}">${S.photos.map(s=>`<div class="pf"><img src="${s}"/></div>`).join('')}</div>`;
+}
+
+// ── Show Tribute ──
+function showTribute(){
+  const name=document.getElementById('inp-name').value||'Your Loved One';
+  let msg=document.getElementById('inp-msg').value;
+  if(S.type==='sorry'){
+    const a=document.getElementById('inp-apology')?.value;
+    msg=a||'"I am sorry. You deserved so much better, and I mean every word."';
+  }
+  if(!msg){
+    const defaults={memorial:'"Always in our hearts, forever in our souls."',
+      birthday:'"The world is so much better with you in it."',
+      anniversary:'"Every day with you has been the best day."',
+      love:'"You are the thing I am most grateful for."',
+      sorry:'"I am sorry. You deserved so much better."'};
+    msg=defaults[S.type]||'"Always in our hearts."';
+  }
+  const dates=document.getElementById('inp-dates').value||'';
+  document.getElementById('t-name').innerHTML=`<em>${name}</em>`;
+  document.getElementById('t-msg').textContent=msg;
+  document.getElementById('t-eyebrow').textContent=EYEBROWS[S.gender][S.type];
+  document.getElementById('t-dates').textContent=dates;
+  document.getElementById('t-photos').innerHTML=buildPhotosHTML();
+
+  // Sorry tag
+  const tag=document.getElementById('t-tag');
+  if(S.type==='sorry'){
+    tag.style.display='inline-block';
+    tag.textContent='A message from the heart';
+    tag.style.cssText='display:inline-block;background:rgba(180,50,50,.12);border:1px solid rgba(180,70,70,.25);border-radius:100px;padding:6px 20px;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:rgba(220,150,150,.75);margin-bottom:14px;opacity:0;animation:fadeUp 1.4s ease forwards .35s';
+  } else { tag.style.display='none'; }
+
+  const ts=document.getElementById('tribute-screen');
+  ts.className=S.theme; ts.style.display='block';
+
+  document.querySelectorAll('.photos-box,.t-eyebrow,.t-name,.t-msg,.t-dates').forEach(el=>{
+    el.style.animation='none';el.offsetHeight;el.style.animation='';
+  });
+  if(tag.style.display!=='none'){tag.style.animation='none';tag.offsetHeight;tag.style.animation='fadeUp 1.4s ease forwards .35s';}
+
+  resizeFw(); startFw();
+  const petalThemes=['tp-rose','tp-cherry','tp-lavender','tp-peach','tp-mint'];
+  if(petalThemes.includes(S.theme)) startPetals(); else stopPetals();
+  document.getElementById('form-screen').style.display='none';
+}
+
+// ═══════ FIREWORKS ENGINE ═══════
+const fwC=document.getElementById('fw-canvas');
+const fwX=fwC.getContext('2d');
+let fwP=[],fwR=null,fwI=null;
+const FWC={
+  'tp-rose':['#ff80bb','#ff2266','#ffccdd','#ff99cc','#fff'],
+  'tp-cherry':['#ff6b8a','#dd1144','#ffaacc','#ff4477','#fff0f5'],
+  'tp-lavender':['#c577ff','#8822dd','#eeddff','#aa55ff','#fff'],
+  'tp-peach':['#ffaa80','#ff6622','#ffd4bb','#ff8844','#fffaf5'],
+  'tp-mint':['#6effc4','#22bb77','#ccffee','#44ddaa','#f0fff8'],
+  'tp-navy':['#5599ff','#1144cc','#aaccff','#2266ee','#eef4ff'],
+  'tp-forest':['#44dd99','#117733','#aaeedd','#22aa66','#efffee'],
+  'tp-steel':['#99bbdd','#334466','#ccdded','#6688aa','#edf2f7'],
+  'tp-ember':['#ff8844','#cc2200','#ffcc99','#ff5511','#fff5ee'],
+  'tp-midnight':['#8877ff','#4400cc','#ccbbff','#5544ee','#f5f0ff'],
+  'tp-gold':['#d4aa6a','#8a5c20','#e8d4a0','#b8882a','#fff8e8'],
+  'tp-sorry':['#c87070','#8a3333','#e8bbbb','#aa5555','#f8e8e8'],
+};
+function resizeFw(){fwC.width=innerWidth;fwC.height=innerHeight;}
+function spawnFw(){
+  const cols=FWC[S.theme]||FWC['tp-gold'];
+  const x=fwC.width*(0.08+Math.random()*.84),y=fwC.height*(0.04+Math.random()*.52);
+  const cnt=S.fw==='snow'?28:S.fw==='ring'?60:80;
+  for(let i=0;i<cnt;i++){
+    const ang=(i/cnt)*Math.PI*2,spd=1.5+Math.random()*3.5; let vx=0,vy=0;
+    switch(S.fw){
+      case'burst':vx=Math.cos(ang)*spd;vy=Math.sin(ang)*spd;break;
+      case'spiral':{const a=ang+i*.12,s=spd*(.4+Math.random());vx=Math.cos(a)*s;vy=Math.sin(a)*s;break;}
+      case'shower':vx=(Math.random()-.5)*5;vy=-(3+Math.random()*4);break;
+      case'heart':{const t=ang;vx=16*Math.pow(Math.sin(t),3)*spd*.15;vy=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))*spd*.11;break;}
+      case'comet':{const a=ang*.3;vx=Math.cos(a)*spd*2;vy=Math.sin(a)*spd*2-Math.random()*2;break;}
+      case'ring':{const r=(i/cnt)*Math.PI*2+Math.random()*.1;vx=Math.cos(r)*spd;vy=Math.sin(r)*spd*.3;break;}
+      case'bloom':{const pa=(Math.floor(i/8)/(cnt/8))*Math.PI*2,pe=Math.sin(i/cnt*Math.PI*8)*.5+.5;vx=Math.cos(pa)*spd*pe;vy=Math.sin(pa)*spd*pe;break;}
+      case'snow':vx=(Math.random()-.5)*1.5;vy=-(.5+Math.random()*1.5);break;
+    }
+    fwP.push({x,y,vx,vy,color:cols[Math.floor(Math.random()*cols.length)],alpha:1,r:1.5+Math.random()*2,
+      grav:S.fw==='snow'?.005:S.fw==='shower'?.06:.035+Math.random()*.025,
+      decay:S.fw==='snow'?.004:.01+Math.random()*.007,trail:[]});
+  }
+}
+function animFw(){
+  fwX.fillStyle='rgba(5,4,10,.17)';fwX.fillRect(0,0,fwC.width,fwC.height);
+  fwP=fwP.filter(p=>p.alpha>.02);
+  for(const p of fwP){
+    p.trail.push({x:p.x,y:p.y});
+    if(p.trail.length>7)p.trail.shift();
+    for(let i=0;i<p.trail.length-1;i++){
+      const t=p.trail[i],a=(i/p.trail.length)*p.alpha*.3;
+      fwX.beginPath();fwX.arc(t.x,t.y,p.r*.5,0,Math.PI*2);
+      fwX.fillStyle=p.color+Math.floor(a*255).toString(16).padStart(2,'0');fwX.fill();
+    }
+    fwX.beginPath();fwX.arc(p.x,p.y,p.r,0,Math.PI*2);
+    fwX.fillStyle=p.color+Math.floor(p.alpha*255).toString(16).padStart(2,'0');fwX.fill();
+    const g=fwX.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);
+    g.addColorStop(0,p.color+Math.floor(p.alpha*60).toString(16).padStart(2,'0'));
+    g.addColorStop(1,'transparent');
+    fwX.beginPath();fwX.arc(p.x,p.y,p.r*3,0,Math.PI*2);fwX.fillStyle=g;fwX.fill();
+    p.vx*=.972;p.vy*=.972;p.vy+=p.grav;p.x+=p.vx;p.y+=p.vy;p.alpha-=p.decay;
+  }
+  fwR=requestAnimationFrame(animFw);
+}
+function startFw(){
+  if(fwR)cancelAnimationFrame(fwR);if(fwI)clearInterval(fwI);
+  fwP=[];spawnFw();animFw();
+  // Apology — slower, less frequent
+  fwI=setInterval(spawnFw,S.type==='sorry'?2200:1050);
+}
+function stopFw(){if(fwR)cancelAnimationFrame(fwR);if(fwI)clearInterval(fwI);fwR=fwI=null;}
+
+// ═══ PETALS ═══
+const pcC=document.getElementById('petals-cv'),pcX=pcC.getContext('2d');
+let pets=[],petR=null;
+const PC={'tp-rose':['#ff80bb','#ffccdd','#ff4488'],'tp-cherry':['#ff6b8a','#ffaabb','#ff2255'],
+  'tp-lavender':['#c577ff','#eeddff','#aa55ee'],'tp-peach':['#ffaa80','#ffd4bb','#ff7733'],
+  'tp-mint':['#6effc4','#ccffee','#22ddaa']};
+function mkPet(init=false){
+  const c=PC[S.theme]||PC['tp-rose'];
+  return{x:Math.random()*pcC.width,y:init?Math.random()*pcC.height:-20,
+    sz:4+Math.random()*10,color:c[Math.floor(Math.random()*c.length)],
+    spd:.4+Math.random()*.8,drift:Math.sin(Math.random()*Math.PI*2)*.5,
+    rot:Math.random()*Math.PI*2,rs:(Math.random()-.5)*.04,alpha:.3+Math.random()*.5};
+}
+function startPetals(){
+  pcC.width=innerWidth;pcC.height=innerHeight;pets=[];
+  for(let i=0;i<35;i++)pets.push(mkPet(true));animPets();
+}
+function stopPetals(){if(petR)cancelAnimationFrame(petR);petR=null;pcX.clearRect(0,0,pcC.width,pcC.height);}
+function animPets(){
+  pcX.clearRect(0,0,pcC.width,pcC.height);
+  for(const p of pets){
+    p.y+=p.spd;p.x+=p.drift;p.rot+=p.rs;
+    if(p.y>pcC.height+20)Object.assign(p,mkPet());
+    pcX.save();pcX.translate(p.x,p.y);pcX.rotate(p.rot);
+    pcX.globalAlpha=p.alpha;pcX.beginPath();
+    pcX.ellipse(0,0,p.sz,p.sz*1.6,0,0,Math.PI*2);
+    pcX.fillStyle=p.color;pcX.fill();pcX.restore();
+  }
+  petR=requestAnimationFrame(animPets);
+}
+window.addEventListener('resize',()=>{
+  if(document.getElementById('tribute-screen').style.display!=='none'){
+    resizeFw();pcC.width=innerWidth;pcC.height=innerHeight;
+  }
+});
+</script>
+</body>
+</html>
