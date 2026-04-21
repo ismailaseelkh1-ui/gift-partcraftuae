@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forever Remembered</title>
+<title>PartCraft Gifts — Send Love Across Any Distance</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════
@@ -576,11 +576,11 @@ input[type=file]::file-selector-button{
  <div class="l-inner">
 
   <nav class="l-nav">
-   <div class="l-logo">Forever Remembered</div>
-   <div class="l-price-badge">From $15 · Yours forever</div>
+   <div class="l-logo">PartCraft Gifts</div>
+   <div class="l-price-badge">From AED 49 · Yours forever</div>
   </nav>
 
-  <div class="l-eyebrow">Handcrafted tribute pages</div>
+  <div class="l-eyebrow">Emotional gift pages for distance relationships</div>
   <h1 class="l-title">
    They deserve<br>
    <em>more than</em><br>
@@ -599,7 +599,7 @@ input[type=file]::file-selector-button{
 
   <div class="l-cta">
    <button class="btn-main" onclick="showForm()">Create Their Page →</button>
-   <div class="l-cta-note">One-time · $15 · Shareable link delivered instantly</div>
+   <div class="l-cta-note">One-time · AED 49 · Shareable link delivered instantly</div>
   </div>
   <div class="l-proof">
    <div class="l-avs">
@@ -815,7 +815,11 @@ input[type=file]::file-selector-button{
 
   <div class="prev-area">
    <button class="btn-main" id="preview-btn" onclick="showTribute()">✦ Preview Their Page</button>
-   <p>Free preview. Pay $15 to get your shareable link.</p>
+   <p>Free preview — happy with it?</p>
+   <a href="https://buy.stripe.com/7sY4gz0T12QrbIqf8g1oI0K" id="pay-btn" class="btn-main" style="display:inline-block;margin-top:14px;text-decoration:none;text-align:center;padding:20px 60px;">
+    ✦ Pay AED 49 &amp; Get Your Link
+   </a>
+   <p style="margin-top:10px;font-size:11px;">One-time payment · Secure checkout · Link sent to your email</p>
   </div>
  </div>
 </section>
@@ -951,9 +955,6 @@ const EMOTION_CTX={
   },
 };
 
-// ── Build / init ──
-buildTypeGrid(); buildThemeGrid(); buildMusicGrid(); buildPhotoGrid(); buildFwGrid(); buildAudioBanner(); applyEmotion();
-
 // ══ Emotional FW data per type ══
 const FW_DATA={
   memorial:[
@@ -1039,6 +1040,9 @@ const VO_TIPS={
 
 // ══ Audio state ══
 let voiceBlob=null,mediaRecorder=null,recChunks=[],recInterval=null,recSeconds=0;
+
+// ── Build / init ──
+buildTypeGrid(); buildThemeGrid(); buildMusicGrid(); buildPhotoGrid(); buildFwGrid(); buildAudioBanner(); applyEmotion();
 
 function buildFwGrid(){
   const data=(FW_DATA[S.type]||FW_DATA.memorial);
